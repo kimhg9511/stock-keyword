@@ -1,32 +1,68 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app id="inspire">
+    <v-navigation-drawer
+      v-model=drawerRight
+      clipped
+      right
+      app
+    >
+    </v-navigation-drawer>
+    
+    <v-app-bar
+      app
+      clipped-right
+      color="blue-grey"
+      dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer">
+      </v-app-bar-nav-icon>
+      <v-toolbar-title>WEB TITLE</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"><v-icon >message</v-icon>
+      </v-app-bar-nav-icon>
+
+    </v-app-bar>
+
+    <v-navigation-drawer
+      app
+      v-model=drawer
+    >
+      <DropDown />
+    </v-navigation-drawer>
+
+    <v-main 
+    >
+      <v-container
+        app
+      >
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+
+    <v-footer
+      app
+      color="blue-grey"
+      dark
+    >
+      <span>김현겸</span>
+      <v-spacer></v-spacer>
+      <span>&copy; 2020</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<script>
+import DropDown from '../src/components/DropDown.vue'
+  export default {
+    props: {
+      source: String,
+    },
+    components: {
+      DropDown,
+    },
+    data: () => ({
+      drawerRight: false,
+      drawer: false
+    }),
+  }
+</script>
