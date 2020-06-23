@@ -20,7 +20,6 @@
       <v-spacer></v-spacer>
       <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"><v-icon >message</v-icon>
       </v-app-bar-nav-icon>
-
     </v-app-bar>
 
     <v-navigation-drawer

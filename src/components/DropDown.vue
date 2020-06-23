@@ -28,15 +28,19 @@
       nav
       dense
     >
-      <v-list-item-group v-model="item" color="primary">
+      <v-list-item-group 
+        v-model=index 
+        color="primary"           
+      >
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
+          :href="item.url"
+          @click="index = 1"
         >
           <v-list-item-icon>
             <v-icon v-text="item.icon"></v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title v-text="item.text"></v-list-item-title>
           </v-list-item-content>
@@ -49,11 +53,11 @@
 <script>
 export default {
   data: () => ({
-    item: 0,
+    index: 0,
     items: [
-      { text: 'Keywords', icon: 'mdi-folder' },
-      { text: 'Chart', icon: 'mdi-account-multiple' },
-      { text: '', icon: 'mdi-star' },
+      { text: 'Keywords', icon: 'mdi-folder', url: 'Card'},
+      { text: 'Chart', icon: 'mdi-account-multiple', url: 'D3Test'},
+      { text: 'Root', icon: 'mdi-star', url: './'},
     ],
   }),
 }
