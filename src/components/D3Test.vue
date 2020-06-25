@@ -33,6 +33,7 @@ export default {
         .attr("height", h);
 
       const sortedGDP = this.gdp.sort((a, b) => (a.value > b.value ? 1 : -1));
+      // console.log(sortedGDP)
       const color = d3.scaleOrdinal(d3.schemeDark2);
 
       const max_gdp = d3.max(sortedGDP, o => o.value);
