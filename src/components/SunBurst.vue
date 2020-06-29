@@ -21,13 +21,16 @@ export default {
     };
   },
   mounted() {
-    this.generateArc();``
+    this.generateArc();
   },
   methods: {
     generateArc() {
       // 데이터 가공, 변수 선언
-      const svgWidth = 500;
-      const svgHeight = 500;
+      const svgWidth = 250;
+      const svgHeight = svgWidth;
+      const innerRadius = svgWidth / 10;
+      const outerRadius = svgWidth / 2;
+      const middleRadius = (innerRadius + outerRadius) / 2;
       const sortedGDP = this.gdp.sort((a, b) => (a.value > b.value ? 1 : -1));
       const sGdpValues = sortedGDP.map(d => d['value']);
       const sumGDP = this.gdp.map(d => d['value']).reduce((a,b)=>a+b)
@@ -51,21 +54,22 @@ export default {
         .domain([0, sumTest])
         .range([angleScale(sGdpValues.slice(0,4).reduce((a,b)=> a+b)), angleScale(sGdpValues.slice(0,5).reduce((a,b)=> a+b))]);
 
+      // 도넛 그리기
       const arc = d3
         .arc()
-        .innerRadius(50)
-        .outerRadius(150)
+        .innerRadius(innerRadius)
+        .outerRadius(middleRadius)
         .startAngle((d,i) => i != 0 ? angleScale(sGdpValues.slice(0,i).reduce((a,b)=> a+b)) : 0)
         .endAngle((d,i) => angleScale(sGdpValues.slice(0,i+1).reduce((a,b)=> a+b)));
 
       const childArc = d3
         .arc()
-        .innerRadius(150)
-        .outerRadius(250)
+        .innerRadius(middleRadius)
+        .outerRadius(outerRadius)
         .startAngle((d,i) => i != 0 ? childAngleScale(this.childData.slice(0,i).reduce((a,b)=>a+b)) : angleScale(sGdpValues.slice(0,4).reduce((a,b)=>a+b)))
         .endAngle((d,i) => childAngleScale(this.childData.slice(0,i+1).reduce((a,b)=> a+b)));
 
-
+      // 데이터 연결
       const g = svg.append("g");
       g.selectAll("path")
         .data(sortedGDP)
@@ -75,6 +79,7 @@ export default {
         .attr("fill", (d, i) => color(i))
         .attr("stroke", "#fff")
         .attr("stroke-width", "2px")
+      // event
         .on("mouseenter", function() {
           d3.select(this)
             .transition()
@@ -86,7 +91,7 @@ export default {
             .transition()
             .duration(200)
             .attr("opacity", 1);
-        });
+        })
 
       const g2 = svg.append("g");
       g2.selectAll("path")
@@ -97,7 +102,8 @@ export default {
         .attr("fill", (d, i) => color(i))
         .attr("stroke", "#fff")
         .attr("stroke-width", "2px")
-
+        
+      // 올바른 위치로 이동
       g.attr("transform", `translate(${svgWidth/2},${svgHeight/2})`);
       g2.attr("transform", `translate(${svgWidth/2},${svgHeight/2})`);
     }

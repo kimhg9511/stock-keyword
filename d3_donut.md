@@ -10,13 +10,14 @@
 </template>
 
 <script>
+// javascript 영역    
 export default {
-	<!-- javascript 영역 -->
+	
 }
 </script>
 
 <style>
-	<!-- css 영역 -->
+/* css 영역 */
 </style>
 ```
 
@@ -93,7 +94,7 @@ const angleScale = d3
 
 실제 데이터 수치 그대로를 시각화하려면 많은 애로사항이 있습니다. 웹 브라우저의 기본 단위는 px(픽셀)이며 이 값은 대체로 480px ~ 1980px 해상도에서 표시되기 때문입니다.  
 
-d3에서는 이를 scale을 이용하여 실제 데이터의 범위(domain)과 자신이 시각화할 영역의 범위(range)를 입력하여 scale 메소드를 생성할 수 있습니다. 만약
+d3에서는 이를 scale을 이용하여 실제 데이터의 범위(domain)과 자신이 시각화할 영역의 범위(range)를 입력하여 scale 함수를 생성할 수 있습니다. 만약
 
 domain : 0 ~ 10000
 
@@ -112,9 +113,50 @@ const arc = d3
     .endAngle((d,i) => angleScale(sGdpValues.slice(0,i+1).reduce((a,b)=> a+b)));
 ```
 
-실제로 차트를 그리는 코드입니다. inner,outer Radius는 이름에서 알 수 있듯 내부 반지름, 외부 반지름을 뜻합니다. 중심부 기준에서 얼마나 멀어지는지 입니다.
+도넛 차트에서 도넛의 각 요소를 호(arc)의 형태로 그리는 코드입니다. inner,outer Radius는 이름에서 알 수 있듯 내부 반지름, 외부 반지름을 뜻합니다. 중심부 기준에서 얼마나 멀어지는지 입니다.
+
+startAngle, endAngle은 호가 시작하는 위치, 끝나는 위치를 지정합니다. 
+
+## 그리기 코드에 데이터를 연결하여 마저 그리기
+
+```javascript
+// 데이터 연결
+const g = svg.append("g");
+g.selectAll("path")
+    .data(sortedGDP)
+    .enter()
+    .append("path")
+    .attr("d", arc)
+    .attr("fill", (d, i) => color(i))
+    .attr("stroke", "#fff")
+    .attr("stroke-width", "2px")
+// event
+    .on("mouseenter", function() {
+    d3.select(this)
+        .transition()
+        .duration(200)
+        .attr("opacity", 0.5);
+})
+    .on("mouseout", function() {
+    d3.select(this)
+        .transition()
+        .duration(200)
+        .attr("opacity", 1);
+})
+```
+
+.data()와 .enter()로 데이터를 연결(binding)하여 각종 속성(모양, 색상, 구분선) 등을 지정하는 코드입니다. 
+
+## 요소 위치 정렬하기
+
+```javascript
+// *올바른 위치로 이동*
+g.attr("transform", `translate(${svgWidth/2},${svgHeight/2})`);
+```
 
 
+
+ 
 
 
 
