@@ -23,6 +23,11 @@ Vue.use(VueRouter)
     path: '/d3test',
     name: 'D3Test',
     component: () => import('../components/D3Test.vue')
+  },
+  {
+    path: '/sunburst',
+    name: 'SunBurst',
+    component: () => import('../components/SunBurst.vue')
   }
 ]
 
