@@ -28,6 +28,11 @@ Vue.use(VueRouter)
     path: '/sunburst',
     name: 'SunBurst',
     component: () => import('../components/SunBurst.vue')
+  },
+  {
+    path: '/todo',
+    name: 'Todo',
+    component: () => import('../components/Todo.vue')
   }
 ]
 
