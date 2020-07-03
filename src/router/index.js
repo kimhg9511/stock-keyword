@@ -33,6 +33,11 @@ Vue.use(VueRouter)
     path: '/todo',
     name: 'Todo',
     component: () => import('../components/Todo.vue')
+  },
+  {
+    path: '/cloud',
+    name: 'WordCloud',
+    component: () => import('../components/WordCloud.vue')
   }
 ]
 

@@ -37,7 +37,7 @@ export default {
       const sumTest = this.childData.reduce((a,b) => a+b)
       const color = d3.scaleOrdinal(d3.schemeDark2);
       // <svg> element 생성
-      const svg = d3
+      let svg = d3
         .select("#arc")
         .append("svg")
         .attr("width", svgWidth)
@@ -102,7 +102,7 @@ export default {
         .attr("fill", (d, i) => color(i))
         .attr("stroke", "#fff")
         .attr("stroke-width", "2px")
-        
+        .attr('transform',(d,i) => `translate(0,10*${i})`)
       // 올바른 위치로 이동
       g.attr("transform", `translate(${svgWidth/2},${svgHeight/2})`);
       g2.attr("transform", `translate(${svgWidth/2},${svgHeight/2})`);
