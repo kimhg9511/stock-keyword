@@ -3,6 +3,7 @@
   <v-system-bar
     color="blue-grey"
   />
+
     <v-list>
       <v-list-item>
         <v-spacer></v-spacer>
@@ -29,14 +30,14 @@
       dense
     >
       <v-list-item-group 
-        v-model=index 
-        color="primary"           
+        v-model="index" 
+        color="primary"    
       >
         <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :href="item.url"
-          @click="index = 1"
+          v-for="(item,idx) in items"
+          :key="idx"
+          @click="foo(idx)"
+          ref="listItem"
         >
           <v-list-item-icon>
             <v-icon v-text="item.icon"></v-icon>
@@ -45,6 +46,7 @@
             <v-list-item-title v-text="item.text"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
       </v-list-item-group>
     </v-list>
   </v-card>
@@ -60,6 +62,13 @@ export default {
       { text: 'Root', icon: 'mdi-star', url: './'},
     ],
   }),
+  methods:{
+    foo(idx){
+      console.log(this.$refs.listItem[idx])
+      this.index = idx;
+      this.$router.push(this.items[idx].url)
+    },
+  }
 }
 </script>
 
