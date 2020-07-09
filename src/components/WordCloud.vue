@@ -47,39 +47,40 @@ export default {
         .spiral(spiral)
         .on("end", draw);
       layout.start();
-      const generateBox = this.generateBox;
+      let generateBox = this.generateBox;
 
       function draw(words) {
-        svg.append("g")
+        let g = svg.append("g")
           .attr("transform",`translate(${layout.size()[0]/2},${layout.size()[1]/2})`)
           .selectAll("text")
           .data(words)
           .enter()
-          .append("text")
-            .text(d => d.text)
-            .style("font-family", "Impact")
-            .style("fill", (d,i) => colors[i%colors.length])
-            .attr("text-anchor", "middle")
-            .style("cursor", "pointer")
-            .style("font-weight", "bold")
-            .style("font-size", d => {
-              return fontSize * fontSizeScale(keywords[d.text]['count']);
-            })
-            .on('click', d => {
-              console.dir(d3.select(this));
-              generateBox(keywords[d.text]['count']);
-            })
-            .transition()
-            .duration(600)
-            .delay((d, i) => i * 20)
-            .attr("transform", d => 
-              `translate(${[d.x, d.y]})rotate(${d.rotate})`
-            );
+        g.append("text")
+          .text(d => d.text)
+          .style("font-family", "Impact")
+          .style("fill", (d,i) => colors[i%colors.length])
+          .attr("text-anchor", "middle")
+          .style("cursor", "pointer")
+          .style("font-weight", "bold")
+          .style("font-size", d => {
+            return fontSize * fontSizeScale(keywords[d.text]['count']);
+          })
+          .on('mouseover', d => {
+            generateBox(keywords[d.text]['count']);
+            console.dir()
+          })
+          .transition()
+          .duration(600)
+          .delay((d, i) => i * 20)
+          .attr("transform", d => 
+            `translate(${[d.x, d.y]})rotate(${d.rotate})`
+          );
       }
+
     },
     generateBox(text){
-      console.log(text)
-      console.log(this);
+      console.log(text);
+      console.dir(this)
     },
   }
 }

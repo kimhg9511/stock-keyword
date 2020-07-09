@@ -38,6 +38,11 @@ Vue.use(VueRouter)
     path: '/cloud',
     name: 'WordCloud',
     component: () => import('../components/WordCloud.vue')
+  },
+  {
+    path: '/wordnet',
+    name: 'WordNetwork',
+    component: () => import('../components/WordNetwork.vue')
   }
 ]
 
